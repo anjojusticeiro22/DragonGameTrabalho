@@ -1,11 +1,13 @@
-from code.Menu import Menu
 
 import pygame
+
+from Menu import Menu
+from Const import Tela_L, Tela_A
 
 class Game:
     def __init__(self):
         pygame.init()
-        self.window = pygame.display.set_mode(size=(480, 600))
+        self.window = pygame.display.set_mode(size=(Tela_L, Tela_A))
 
     def run(self, ):
         while True:
