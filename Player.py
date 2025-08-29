@@ -1,14 +1,17 @@
 import pygame
-from Const import ENTITY_SPEED, Tela_A, Tela_L
+from Const import ENTITY_SPEED, Tela_A, Tela_L, ENTITY_SHOT_DELAY
 from Entity import Entity
+from PlayerShoot import PlayerShoot
+
 
 class Player(Entity):
-    def __init__(self,nome: str, position:tuple):
-        super().__init__(nome, position)
+    def __init__(self,name: str, position:tuple):
+        super().__init__(name, position)
+        self.shoot_delay = ENTITY_SHOT_DELAY[self.name]
         self.frames = [
-            pygame.image.load(f"asset/{nome}.png").convert_alpha(),
-            pygame.image.load(f"asset/{nome}move2.png").convert_alpha(),
-            pygame.image.load(f"asset/{nome}move3.png").convert_alpha()
+            pygame.image.load(f"asset/{name}.png").convert_alpha(),
+            pygame.image.load(f"asset/{name}move2.png").convert_alpha(),
+            pygame.image.load(f"asset/{name}move3.png").convert_alpha()
         ]
         self.frame_index = 0
         self.frame_timer = 0
@@ -34,3 +37,12 @@ class Player(Entity):
         if pressed_key[pygame.K_RIGHT] and self.rect.right < Tela_L:
             self.rect.centerx += ENTITY_SPEED[self.name]
         pass
+
+    def shoot(self):
+        self.shoot_delay -= 1
+        if self.shoot_delay == 0:
+            self.shoot_delay = ENTITY_SHOT_DELAY[self.name]
+            pressed_key = pygame.key.get_pressed()
+            if pressed_key[pygame.K_SPACE]:
+               return PlayerShoot(name=f'{self.name}shoot', position=(self.rect.centerx, self.rect.centery))
+

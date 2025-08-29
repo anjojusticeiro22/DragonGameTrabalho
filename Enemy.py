@@ -1,15 +1,21 @@
-from Const import ENTITY_SPEED, Tela_A
+from Const import ENTITY_SPEED, Tela_A, ENTITY_SHOT_DELAY
+from EnemyShoot import EnemyShoot
 from Entity import Entity
 
 
 class Enemy(Entity):
-    def __init__(self,nome: str, position:tuple):
-        super().__init__(nome, position)
+    def __init__(self,name: str, position:tuple):
+        super().__init__(name, position)
+        self.shoot_delay = ENTITY_SHOT_DELAY[self.name]
 
 
 
 
     def move(self):
-        self.rect.y += ENTITY_SPEED[self.name]
-        if self.rect.top >= Tela_A:
-            self.rect.bottom = 0
+        self.rect.centery += ENTITY_SPEED[self.name]
+
+    def shoot(self):
+        self.shoot_delay -= 1
+        if self.shoot_delay == 0:
+            self.shoot_delay = ENTITY_SHOT_DELAY[self.name]
+            return EnemyShoot(name=f'{self.name}shoot', position=(self.rect.centerx, self.rect.centery))

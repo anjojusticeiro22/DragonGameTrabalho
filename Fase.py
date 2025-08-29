@@ -4,8 +4,11 @@ import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
 from Const import C_VERMELHO, C_AMARELO, EVENT_ENEMY, SPAWN_ENEMY
+from Enemy import Enemy
 from Entity import Entity
 from EntityFactory import EntityFactory
+from EntityMediator import EntityMediator
+from Player import Player
 
 
 class Fase:
@@ -34,6 +37,11 @@ class Fase:
                     ent.update(dt)
                 self.window.blit(ent.surf, ent.rect)
                 ent.move()
+                if isinstance(ent, (Player,Enemy)):
+                    shoot = ent.shoot()
+                    if shoot is not None:
+                        self.entity_list.append(shoot)
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -47,6 +55,9 @@ class Fase:
             self.fase_text(28, f'{self.name}', C_AMARELO, (274, 10))
             self.fase_text(28, f'Timeout: {self.timeout / 1000 :.1f}s', C_AMARELO, (222, 40))
             pygame.display.flip()
+
+            EntityMediator.verify_collision(entity_list=self.entity_list)
+            EntityMediator.verify_life(entity_list=self.entity_list)
         pass
 
     def fase_text(self, text_size: int, text: str, text_color: tuple, text_pos: tuple):
