@@ -20,8 +20,8 @@ class EntityFactory:
             case 'Play1':
                 return Player('Play1', (250 , 700))
             case 'Enemy1':
-                return Enemy('Enemy1', (random.randint(0,Tela_L-79),0-10,))
+                return Enemy('Enemy1', (random.randint(0,Tela_L-79),0-80,))
             case 'Enemy2':
-                return Enemy('Enemy2', (random.randint(0,Tela_L-79),0-10,))
+                return Enemy('Enemy2', (random.randint(0,Tela_L-79),0-80,))
             case 'Enemy3':
-                return Enemy('Enemy3', (random.randint(0,Tela_L-79),0-10,))
+                return Enemy('Enemy3', (random.randint(0,Tela_L-79),0-80,))

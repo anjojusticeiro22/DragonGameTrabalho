@@ -37,17 +37,22 @@ class Fase:
                     ent.update(dt)
                 self.window.blit(ent.surf, ent.rect)
                 ent.move()
-                if isinstance(ent, (Player,Enemy)):
+                if isinstance(ent, (Player, Enemy)):
                     shoot = ent.shoot()
                     if shoot is not None:
                         self.entity_list.append(shoot)
+                    if ent.name == 'Play1':
+                        self.fase_text(28, f'Life : {ent.life}', C_VERMELHO, (260, 75))
+                        self.fase_text(27, f'Life : {ent.life}', C_AMARELO, (260, 75))
+                        self.fase_text(28, f'Score : {ent.score}', C_VERMELHO, (260, 100))
+                        self.fase_text(27, f'Score : {ent.score}', C_AMARELO, (260, 100))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
                 if event.type == EVENT_ENEMY:
-                    choice = random.choice(('Enemy1','Enemy2','Enemy3'))
+                    choice = random.choice(('Enemy1', 'Enemy2', 'Enemy3'))
                     self.entity_list.append(EntityFactory.get_entity(choice))
 
             self.fase_text(29, f'{self.name}', C_VERMELHO, (272, 10))
