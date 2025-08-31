@@ -7,7 +7,7 @@ from game_code.PlayerShoot import PlayerShoot
 
 
 class EntityMediator:
-
+    #verifica colisões e aplicar 'punição' ou aumento no score caso ocorra colisões
     @staticmethod
     def __verify_collision_window(ent: Entity):
         if isinstance(ent, Enemy):
@@ -36,11 +36,7 @@ class EntityMediator:
         elif isinstance(ent1, Enemy) and isinstance(ent2, Player):
             valid_interaction = True
 
-        if valid_interaction:
-            if (ent1.rect.right >= ent2.rect.left and
-                    ent1.rect.left <= ent2.rect.right and
-                    ent1.rect.top <= ent2.rect.bottom and
-                    ent1.rect.bottom >= ent2.rect.top):
+        if valid_interaction and ent1.rect.colliderect(ent2.rect):
                 ent1.life -= ent2.dano
                 ent2.life -= ent1.dano
                 ent1.last_dmg = ent2.name

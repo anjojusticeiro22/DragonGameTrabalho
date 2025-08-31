@@ -12,11 +12,12 @@ class Menu:
         self.rect = self.surf.get_rect(left=0, top=0)
 
     def run(self, ):
-        menu_op = 0
+        menu_op = 0  # índice da opção do menu selecionada
         pygame.mixer.music.load('./asset/menu.wav')
-        pygame.mixer_music.play(-1)
+        pygame.mixer.music.play(-1)  # tocar música em loop
 
         while True:
+            # desenhar fundo e título
             self.window.blit(self.surf, self.rect)
             self.menu_text(102, "Dragon", C_VERMELHO, ((Tela_L / 2), 100))
             self.menu_text(102, "Adventure", C_VERMELHO, ((Tela_L / 2), 200))
@@ -27,6 +28,7 @@ class Menu:
 
             for i in range(len(MENU_OP)):
                 if i == menu_op:
+                    # opção selecionada com cores diferentes (3 para dar um efeito)
                     self.menu_text(54, MENU_OP[i], C_AMARELO, ((Tela_L / 2), 490 + 70 * i))
                     self.menu_text(52, MENU_OP[i], C_VERMELHO, ((Tela_L / 2), 490 + 70 * i))
                     self.menu_text(50, MENU_OP[i], C_LARANJA, ((Tela_L / 2), 490 + 70 * i))
@@ -35,25 +37,21 @@ class Menu:
                     self.menu_text(49, MENU_OP[i], C_LARANJA, ((Tela_L / 2), 490 + 70 * i))
                     self.menu_text(47, MENU_OP[i], C_AMARELO, ((Tela_L / 2), 490 + 70 * i))
 
+            # verificar eventos do teclado
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
                 if event.type == pygame.KEYDOWN:
+                    # mover para cima e para baixo no menu
                     if event.key == pygame.K_DOWN:
-                        if menu_op < len(MENU_OP) - 1:
-                            menu_op += 1
-                        else:
-                            menu_op = 0
-                    if event.key == pygame.K_UP:
-                        if menu_op > 0:
-                            menu_op -= 1
-                        else:
-                            menu_op = len(MENU_OP) - 1
-                    if event.key == pygame.K_RETURN:
+                        menu_op = (menu_op + 1) % len(MENU_OP)
+                    elif event.key == pygame.K_UP:
+                        menu_op = (menu_op - 1) % len(MENU_OP)
+                    elif event.key == pygame.K_RETURN:
                         return MENU_OP[menu_op]
 
-            pygame.display.flip()
+            pygame.display.flip()  # atualizar a tela
 
     def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
         text_font: Font = pygame.font.SysFont(name="Burn", size=text_size)

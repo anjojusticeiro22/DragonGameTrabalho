@@ -14,17 +14,19 @@ class Game:
 
     def run(self):
         while True:
-            score = Score(self.window)
-            menu = Menu(self.window)
+            score = Score(self.window)  # cria tela de score
+            menu = Menu(self.window)  # cria menu
             menu_return = menu.run()
 
             if menu_return == MENU_OP[0]:
                 player = EntityFactory.get_entity('Play1')
                 player_score = [0]
+                # cria fase 1, usando tempo de spawn definido em SPAWN_ENEMY
                 fase = Fase(self.window, 'Fase1', player, score_start=player_score[0], spawn_time=SPAWN_ENEMY)
                 pygame.mixer.music.stop()
                 fase_return = fase.run(player_score)
                 if fase_return == 'completa':
+                    # se fase 1 for completa, cria fase 2 com spawn mais rápido (SPAWN_ENEMY2)
                     fase = Fase(self.window, 'Fase2', player, score_start=player_score[0], spawn_time=SPAWN_ENEMY2)
                     fase_return = fase.run(player_score)
                     if fase_return == 'completa':
@@ -33,9 +35,11 @@ class Game:
                         continue
                 elif fase_return == 'gameover':
                     continue
+            # se escolher "Ver Scores"
             if menu_return == MENU_OP[1]:
-                score.show()
+                score.show() # mostra tabela de scores
 
+            # se escolher "Sair"
             elif menu_return == MENU_OP[2]:
                 pygame.quit()
                 quit()

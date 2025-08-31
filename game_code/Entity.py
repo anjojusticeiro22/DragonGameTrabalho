@@ -4,10 +4,11 @@ import pygame.image
 
 from game_code.Const import ENTITY_LIFE, ENTITY_DANO, ENTITY_SCORE
 
-
+#classe abstrata, serve como "modelo" pras outras
 class Entity(ABC):
     def __init__(self, name: str, position: tuple):
         self.name = name
+        # Carrega a imagem do personagem/inimigo/jogador pelo nome
         self.surf = pygame.image.load('./asset/' + name + '.png').convert_alpha()
         self.rect = self.surf.get_rect(left=position[0], top=position[1])
         self.speed = 0

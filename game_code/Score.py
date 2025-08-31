@@ -12,11 +12,13 @@ class Score:
 
     def __init__(self, window: Surface):
         self.window = window
+        # Carrega a imagem de fundo da tela de score
         self.surf = pygame.image.load('./asset/Score.png').convert_alpha()
         self.rect = self.surf.get_rect(left=0, top=0)
 
     def save(self, game_mode: str, player_score: list[int]):
         self.window.blit(source=self.surf, dest=self.rect)
+        # Cria um "proxy" para salvar e pegar dados do banco DBSScore
         db_proxy = DBProxy('DBSScore')
         name = ''
         while True:
@@ -33,10 +35,12 @@ class Score:
                     pygame.quit()
                     quit()
                 elif event.type == KEYDOWN:
+                    # ao preencher 5 caracteres e apertar enter salva no banco
                     if event.key == K_RETURN and len(name) == 5:
                         db_proxy.save({'name': name, 'score': score, 'date': get_formatted_date()})
                         self.show()
                         return
+                    #ao apertar backspace apaga o ultimo caractere digitado
                     elif event.key == K_BACKSPACE:
                         name = name[:-1]
                     else:
@@ -48,6 +52,7 @@ class Score:
             pass
 
     def show(self):
+        # Mostra a tela com o ranking de pontuações
         self.window.blit(source=self.surf, dest=self.rect)
         self.score_text(70, '    TOP 5', C_VERMELHO, SCORE_POS['Title'])
         self.score_text(68, '    TOP 5', C_AMARELO, SCORE_POS['Title'])
@@ -80,7 +85,7 @@ class Score:
         text_rect: Rect = text_surf.get_rect(left=text_pos[0], top=text_pos[1])
         self.window.blit(source=text_surf, dest=text_rect)
 
-
+# Gera a data conforme o sistema do usuario
 def get_formatted_date():
     current_datetime = datetime.now()
     current_time = current_datetime.strftime('%H:%M')

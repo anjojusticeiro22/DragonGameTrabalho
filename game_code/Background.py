@@ -6,6 +6,7 @@ class Background(Entity):
     def __init__(self, name: str, position: tuple):
         super().__init__(name, position)
 
+    # cria o loop infinito do fundo
     def move(self):
         self.rect.y += ENTITY_SPEED[self.name]
 

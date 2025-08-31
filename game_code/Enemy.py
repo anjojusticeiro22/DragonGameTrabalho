@@ -9,6 +9,7 @@ class Enemy(Entity):
         self.shoot_delay = ENTITY_SHOOT_DELAY[self.name]
 
     def move(self):
+        # faz o inimigo descer (aumenta o Y)
         self.rect.centery += ENTITY_SPEED[self.name]
 
     def shoot(self):
